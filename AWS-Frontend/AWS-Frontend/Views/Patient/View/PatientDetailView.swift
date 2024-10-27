@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PatientDetailView: View {
-    @EnvironmentObject var viewModel: PatientViewModel
+    @Environment(PatientViewModel.self) var viewModel
+    
     let patient: Patient
     
     @Environment(\.dismiss) var dismiss
@@ -17,14 +18,14 @@ struct PatientDetailView: View {
     var body: some View {
         ScrollView {
             
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(spacing: 20) {
                 Text("Nome: \(patient.name)")
                     .font(.title)
                 Text("Telefone: \(patient.phoneNumber)")
                 Text("CFP: \(patient.taxId)")
 //                Text("Data de Nascimento: \(patient.formatDate(stringDate: patient.birthDate))")
-                Text("Peso: \(patient.weight, specifier: "%.1f") kg")
-                Text("Altura: \(patient.height) cm")
+                Text("Peso: \(patient.weight, specifier: "%.3f") kg")
+                Text("Altura: \(patient.height, specifier: "%.2f") m")
                 Text("Tipo Sanguíneo: \(patient.bloodType)")
                 Text("Número do Serviço: \(patient.healthServiceNumber)")
                 Text("Endereço:")
@@ -34,8 +35,21 @@ struct PatientDetailView: View {
                 Text("Cidade: \(patient.address.city)")
                 Text("Rua: \(patient.address.street)")
                 Text("CEP: \(patient.address.postalCode)")
+                
+                NavigationLink {
+                    PatientUpdateView(patient: patient)
+                        .environment(viewModel)
+                } label: {
+                    Text("Atualizar Dados")
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                        .padding()
+                        .background(.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                }
+
             }
-            .navigationTitle("Detalhes do Paciente")
             .padding()
             
             .toolbar {
@@ -75,6 +89,6 @@ struct PatientDetailView: View {
     let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
     NavigationStack {
         PatientDetailView(patient: examplePatient)
-            .environmentObject(PatientViewModel())
+            .environment(PatientViewModel())
     }
 }

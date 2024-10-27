@@ -13,8 +13,8 @@ struct Patient: Hashable, Codable {
     let phoneNumber: String
     let taxId: String
 //    let birthDate: String
-    let weight: Int
-    let height: Int
+    let weight: Double
+    let height: Double
     let bloodType: String
     let healthServiceNumber: String
     let address: Address

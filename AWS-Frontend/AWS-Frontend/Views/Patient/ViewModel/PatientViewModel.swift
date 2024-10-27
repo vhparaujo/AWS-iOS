@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import Observation
 
-class PatientViewModel: ObservableObject {
-    let service = ServiceManager.shared
-    @Published var patients: [Patient] = []
+@Observable
+class PatientViewModel {
+    @ObservationIgnored let service = ServiceManager.shared
+    var patients: [Patient] = []
     
     func getPatients() async throws {
         do {
@@ -48,6 +50,5 @@ class PatientViewModel: ObservableObject {
             print(error)
         }
     }
-    
     
 }

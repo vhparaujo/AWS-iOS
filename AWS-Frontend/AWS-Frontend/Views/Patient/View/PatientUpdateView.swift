@@ -1,16 +1,17 @@
 //
-//  PatientCreateView.swift
+//  PatientUpdateView.swift
 //  AWS-Frontend
 //
-//  Created by Victor Hugo Pacheco Araujo on 26/10/24.
+//  Created by Victor Hugo Pacheco Araujo on 27/10/24.
 //
 
 import SwiftUI
 
-struct PatientCreateView: View {
-    
+struct PatientUpdateView: View {
     @Environment(PatientViewModel.self) var viewModel
     @Environment(\.dismiss) var dismiss
+
+    let patient: Patient
     
     @State var name: String = ""
     @State var phoneNumber: String = ""
@@ -30,7 +31,7 @@ struct PatientCreateView: View {
         ScrollView {
             VStack {
                 
-                Text("Cadastrar Paciente")
+                Text("Atualizar Paciente")
                     .font(.title)
                     .bold()
                 
@@ -70,7 +71,7 @@ struct PatientCreateView: View {
                 Button {
                     Task {
                         do {
-                            try await viewModel.createPatient(patient:
+                            try await viewModel.updatePatient(id: patient.id ?? "", patient:
                                                                 Patient(id: nil, name: name, phoneNumber: phoneNumber, taxId: taxId, weight: weight ?? 0, height: height ?? 0, bloodType: bloodType, healthServiceNumber: healthServiceNumber, address:
                                                                             Address(country: country, state: state, city: city, street: street, postalCode: postalCode)
                                                                        )
@@ -82,7 +83,7 @@ struct PatientCreateView: View {
                     
                     dismiss()
                 } label: {
-                    Text("Criar paciente")
+                    Text("Atualizar")
                         .font(.title2)
                         .foregroundStyle(.white)
                         .padding()
@@ -92,14 +93,32 @@ struct PatientCreateView: View {
                 }.padding(.vertical)
                 
             }.padding()
+            
+                .onAppear {
+                    self.name = patient.name
+                    self.phoneNumber = patient.phoneNumber
+                    self.taxId = patient.taxId
+                    self.weight = patient.weight
+                    self.height = patient.height
+                    self.bloodType = patient.bloodType
+                    self.healthServiceNumber = patient.healthServiceNumber
+                    self.country = patient.address.country
+                    self.state = patient.address.state
+                    self.city = patient.address.city
+                    self.street = patient.address.street
+                    self.postalCode = patient.address.postalCode
+                }
+
         }
         .scrollDismissesKeyboard(.interactively)
 
     }
+    
 }
 
 #Preview {
-    let viewModel = PatientViewModel()
-    PatientCreateView()
-        .environment(viewModel)
+    let exampleAddress = Address(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
+    let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
+    PatientUpdateView(patient: examplePatient)
+        .environment(PatientViewModel())
 }

@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct PatientsView: View {
-    @StateObject var viewModel = PatientViewModel()
+    @State var viewModel = PatientViewModel()
     
     var body: some View {
         VStack {
-            
-            Text("Lista de Pacientes")
-                .font(.title)
-            
+          
             List(viewModel.patients, id: \.self) { patient in
                 NavigationLink(destination: PatientDetailView(patient: patient)
-                    .environmentObject(viewModel)
+                    .environment(viewModel)
                 ) {
                     Text(patient.name)
                 }
@@ -26,11 +23,13 @@ struct PatientsView: View {
             .listStyle(.plain)
         }
         
+        .navigationTitle("Lista de Pacientes")
+        
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
                     PatientCreateView()
-                        .environmentObject(viewModel)
+                        .environment(viewModel)
                 } label: {
                     Image(systemName: "plus")
                         .foregroundStyle(.blue)
@@ -39,6 +38,14 @@ struct PatientsView: View {
         }
         
         .task {
+            do {
+                try await viewModel.getPatients()
+            } catch {
+                print("Erro ao obter pacientes: \(error.localizedDescription)")
+            }
+        }
+        
+        .refreshable {
             do {
                 try await viewModel.getPatients()
             } catch {
