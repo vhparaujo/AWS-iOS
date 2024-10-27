@@ -26,16 +26,25 @@ struct PatientsView: View {
             .listStyle(.plain)
         }
         
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    PatientCreateView()
+                        .environmentObject(viewModel)
+                } label: {
+                    Image(systemName: "plus")
+                        .foregroundStyle(.blue)
+                }
+            }
+        }
+        
         .task {
-            
             do {
                 try await viewModel.getPatients()
             } catch {
                 print("Erro ao obter pacientes: \(error.localizedDescription)")
             }
-            
         }
-        
         
     }
 }

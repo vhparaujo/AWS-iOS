@@ -8,13 +8,13 @@
 import Foundation
 
 struct Patient: Hashable, Codable {
-    let id: String
+    let id: String?
     let name: String
     let phoneNumber: String
     let taxId: String
-    let birthDate: String
-    let weight: Double
-    let height: Double
+//    let birthDate: String
+    let weight: Int
+    let height: Int
     let bloodType: String
     let healthServiceNumber: String
     let address: Address

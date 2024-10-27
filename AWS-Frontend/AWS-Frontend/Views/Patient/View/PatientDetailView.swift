@@ -22,9 +22,9 @@ struct PatientDetailView: View {
                     .font(.title)
                 Text("Telefone: \(patient.phoneNumber)")
                 Text("CFP: \(patient.taxId)")
-                Text("Data de Nascimento: \(patient.formatDate(stringDate: patient.birthDate))")
+//                Text("Data de Nascimento: \(patient.formatDate(stringDate: patient.birthDate))")
                 Text("Peso: \(patient.weight, specifier: "%.1f") kg")
-                Text("Altura: \(patient.height, specifier: "%.1f") m")
+                Text("Altura: \(patient.height) cm")
                 Text("Tipo Sanguíneo: \(patient.bloodType)")
                 Text("Número do Serviço: \(patient.healthServiceNumber)")
                 Text("Endereço:")
@@ -34,7 +34,6 @@ struct PatientDetailView: View {
                 Text("Cidade: \(patient.address.city)")
                 Text("Rua: \(patient.address.street)")
                 Text("CEP: \(patient.address.postalCode)")
-                
             }
             .navigationTitle("Detalhes do Paciente")
             .padding()
@@ -54,8 +53,9 @@ struct PatientDetailView: View {
                 Button("Excluir", role: .destructive) {
                     Task {
                         do {
-                            try await viewModel.deletePatients(id: patient.id)
-                            dismiss() // Volta para a PatientsView após a exclusão
+                            try await viewModel.deletePatients(id: patient.id ?? "")
+                            
+                            dismiss()
                         } catch {
                             print("Erro ao deletar paciente: \(error.localizedDescription)")
                         }
@@ -72,7 +72,7 @@ struct PatientDetailView: View {
 
 #Preview {
     let exampleAddress = Address(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
-    let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", birthDate: "2024-10-26", weight: 70.0, height: 1.80, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
+    let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
     NavigationStack {
         PatientDetailView(patient: examplePatient)
             .environmentObject(PatientViewModel())

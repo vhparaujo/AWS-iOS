@@ -33,7 +33,21 @@ class PatientViewModel: ObservableObject {
         }
     }
     
+    func createPatient(patient: Patient) async throws {
+        do {
+            try await service.createData(to: "https://3se393o3y1.execute-api.us-east-1.amazonaws.com/dev/patients", with: patient)
+        } catch {
+            print(error)
+        }
+    }
     
+    func updatePatient(id: String, patient: Patient) async throws {
+        do {
+            try await service.updateData(to: "https://3se393o3y1.execute-api.us-east-1.amazonaws.com/dev/patients/\(id)", with: patient, using: "PATCH")
+        } catch {
+            print(error)
+        }
+    }
     
     
 }
