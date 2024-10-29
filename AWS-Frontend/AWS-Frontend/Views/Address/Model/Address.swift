@@ -8,9 +8,9 @@
 import Foundation
 
 struct Address: Hashable, Codable {
-    let country: String
-    let state: String
-    let city: String
-    let street: String
-    let postalCode: String
+    var country: String
+    var state: String
+    var city: String
+    var street: String
+    var postalCode: String
 }

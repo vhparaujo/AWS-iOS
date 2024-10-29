@@ -10,7 +10,7 @@ import SwiftUI
 struct PatientDetailView: View {
     @Environment(PatientViewModel.self) var viewModel
     
-    let patient: Patient
+    @State var patient: Patient
     
     @Environment(\.dismiss) var dismiss
     @State private var showingAlert = false
@@ -37,7 +37,7 @@ struct PatientDetailView: View {
                 Text("CEP: \(patient.address.postalCode)")
                 
                 NavigationLink {
-                    PatientUpdateView(patient: patient)
+                    PatientUpdateView(patient: $patient)
                         .environment(viewModel)
                 } label: {
                     Text("Atualizar Dados")

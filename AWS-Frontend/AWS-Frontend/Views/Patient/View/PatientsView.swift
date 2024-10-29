@@ -39,6 +39,7 @@ struct PatientsView: View {
         
         .task {
             do {
+                print("Task executado")
                 try await viewModel.getPatients()
             } catch {
                 print("Erro ao obter pacientes: \(error.localizedDescription)")
@@ -57,5 +58,5 @@ struct PatientsView: View {
 }
 
 #Preview {
-    PatientsView()
+    ContentView()
 }

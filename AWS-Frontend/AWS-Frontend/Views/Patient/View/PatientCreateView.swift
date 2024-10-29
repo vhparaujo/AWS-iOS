@@ -75,12 +75,12 @@ struct PatientCreateView: View {
                                                                             Address(country: country, state: state, city: city, street: street, postalCode: postalCode)
                                                                        )
                             )
+                            dismiss()
                         } catch {
                             print("Erro ao obter pacientes: \(error.localizedDescription)")
                         }
                     }
                     
-                    dismiss()
                 } label: {
                     Text("Criar paciente")
                         .font(.title2)

@@ -8,16 +8,16 @@
 import Foundation
 
 struct Patient: Hashable, Codable {
-    let id: String?
-    let name: String
-    let phoneNumber: String
-    let taxId: String
+    var id: String?
+    var name: String
+    var phoneNumber: String
+    var taxId: String
 //    let birthDate: String
-    let weight: Double
-    let height: Double
-    let bloodType: String
-    let healthServiceNumber: String
-    let address: Address
+    var weight: Double
+    var height: Double
+    var bloodType: String
+    var healthServiceNumber: String
+    var address: Address
 
     func formatStringDate(string: String) -> Date? {
         let dateFormatter = DateFormatter()
