@@ -11,18 +11,20 @@ import Observation
 @Observable
 class PatientViewModel {
     @ObservationIgnored let service = ServiceManager.shared
-    var patients: [Patient] = []
+//    var patients: [Patient] = []
     
-    func getPatients() async throws {
+    func getPatients() async throws -> [Patient] {
         do {
             let fetchedPatients: [Patient] = try await service.getData(from: "https://3se393o3y1.execute-api.us-east-1.amazonaws.com/dev/patients")
            
-            Task { @MainActor in
-                patients = fetchedPatients
-            }
+//            Task { @MainActor in
+//                patients = fetchedPatients
+//            }
+            return fetchedPatients
         }
         catch {
             print(error)
+            return []
         }
     }
     

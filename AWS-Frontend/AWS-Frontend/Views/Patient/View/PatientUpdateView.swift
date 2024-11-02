@@ -11,7 +11,7 @@ struct PatientUpdateView: View {
     @Environment(PatientViewModel.self) var viewModel
     @Environment(\.dismiss) var dismiss
 
-    @Binding var patient: Patient
+    @Binding var patient: PatientClass
     
     var body: some View {
         ScrollView {
@@ -21,9 +21,9 @@ struct PatientUpdateView: View {
                     .font(.title)
                     .bold()
                 
-                TextField("Name", text: $patient.name)
+                TextField("Nome", text: $patient.name)
                     .textFieldStyle(.roundedBorder)
-                TextField("Phone Number", text: $patient.phoneNumber)
+                TextField("Telefone", text: $patient.phoneNumber)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.phonePad)
                 TextField("CPF", text: $patient.taxId)
@@ -31,26 +31,26 @@ struct PatientUpdateView: View {
                     .keyboardType(.numberPad)
                 //                TextField("Birth Date", text: $birthDate)
                 //                    .textFieldStyle(.roundedBorder)
-                TextField("Weight (kg)", value: $patient.weight, format: .number)
+                TextField("Peso (kg)", value: $patient.weight, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
-                TextField("Height (m)", value: $patient.height, format: .number)
+                TextField("Altura (m)", value: $patient.height, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
-                TextField("Blood Type", text: $patient.bloodType)
+                TextField("Tipo sanguíneo", text: $patient.bloodType)
                     .textFieldStyle(.roundedBorder)
-                TextField("Health Service Number", text: $patient.healthServiceNumber)
+                TextField("Numero do SUS", text: $patient.healthServiceNumber)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.numberPad)
-                TextField("Country", text: $patient.address.country)
+                TextField("País", text: $patient.address.country)
                     .textFieldStyle(.roundedBorder)
-                TextField("State", text: $patient.address.state)
+                TextField("Estado", text: $patient.address.state)
                     .textFieldStyle(.roundedBorder)
-                TextField("City", text: $patient.address.city)
+                TextField("Cidade", text: $patient.address.city)
                     .textFieldStyle(.roundedBorder)
-                TextField("Street", text: $patient.address.street)
+                TextField("Rua", text: $patient.address.street)
                     .textFieldStyle(.roundedBorder)
-                TextField("Postal Code", text: $patient.address.postalCode)
+                TextField("CEP", text: $patient.address.postalCode)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.numberPad)
                 
@@ -103,9 +103,9 @@ struct PatientUpdateView: View {
     
 }
 
-//#Preview {
-//    let exampleAddress = Address(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
-//    let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
-//    PatientUpdateView(patient: examplePatient)
-//        .environment(PatientViewModel())
-//}
+#Preview {
+    let exampleAddress = AddressClass(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
+    let examplePatient = PatientClass(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
+    PatientUpdateView(patient: .constant(examplePatient))
+        .environment(PatientViewModel())
+}

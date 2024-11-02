@@ -10,7 +10,7 @@ import SwiftUI
 struct PatientDetailView: View {
     @Environment(PatientViewModel.self) var viewModel
     
-    @State var patient: Patient
+    @State var patient: PatientClass
     
     @Environment(\.dismiss) var dismiss
     @State private var showingAlert = false
@@ -22,12 +22,12 @@ struct PatientDetailView: View {
                 Text("Nome: \(patient.name)")
                     .font(.title)
                 Text("Telefone: \(patient.phoneNumber)")
-                Text("CFP: \(patient.taxId)")
+                Text("CPF: \(patient.taxId)")
 //                Text("Data de Nascimento: \(patient.formatDate(stringDate: patient.birthDate))")
                 Text("Peso: \(patient.weight, specifier: "%.3f") kg")
                 Text("Altura: \(patient.height, specifier: "%.2f") m")
                 Text("Tipo Sanguíneo: \(patient.bloodType)")
-                Text("Número do Serviço: \(patient.healthServiceNumber)")
+                Text("Número do SUS: \(patient.healthServiceNumber)")
                 Text("Endereço:")
                     .font(.title2)
                 Text("País: \(patient.address.country)")
@@ -85,8 +85,8 @@ struct PatientDetailView: View {
 }
 
 #Preview {
-    let exampleAddress = Address(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
-    let examplePatient = Patient(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
+    let exampleAddress = AddressClass(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
+    let examplePatient = PatientClass(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
     NavigationStack {
         PatientDetailView(patient: examplePatient)
             .environment(PatientViewModel())
