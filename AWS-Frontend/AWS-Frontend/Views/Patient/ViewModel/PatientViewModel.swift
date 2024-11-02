@@ -11,15 +11,15 @@ import Observation
 @Observable
 class PatientViewModel {
     @ObservationIgnored let service = ServiceManager.shared
-//    var patients: [Patient] = []
+    //    var patients: [Patient] = []
     
     func getPatients() async throws -> [Patient] {
         do {
             let fetchedPatients: [Patient] = try await service.getData(from: "https://3se393o3y1.execute-api.us-east-1.amazonaws.com/dev/patients")
-           
-//            Task { @MainActor in
-//                patients = fetchedPatients
-//            }
+            
+            //            Task { @MainActor in
+            //                patients = fetchedPatients
+            //            }
             return fetchedPatients
         }
         catch {
@@ -51,6 +51,33 @@ class PatientViewModel {
         } catch {
             print(error)
         }
+    }
+    
+    func formatDateForISO(birthDate: Date) -> String {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        dateFormatter.timeZone = .current
+        let birthDateString = dateFormatter.string(from: birthDate)
+        return birthDateString
+    }
+    
+    func formatStringDate(string: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        return dateFormatter.date(from: string)
+    }
+    
+    func formatDate(stringDate: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = .current
+        dateFormatter.timeZone = .current // Define o fuso horário para UTC
+        
+        guard let date = formatStringDate(string: stringDate) else {
+            return ""
+        }
+        return dateFormatter.string(from: date)
     }
     
 }

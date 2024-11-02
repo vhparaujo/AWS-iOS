@@ -23,7 +23,7 @@ struct PatientDetailView: View {
                     .font(.title)
                 Text("Telefone: \(patient.phoneNumber)")
                 Text("CPF: \(patient.taxId)")
-//                Text("Data de Nascimento: \(patient.formatDate(stringDate: patient.birthDate))")
+                Text("Data de Nascimento: \(viewModel.formatDate(stringDate: patient.birthDate))")
                 Text("Peso: \(patient.weight, specifier: "%.3f") kg")
                 Text("Altura: \(patient.height, specifier: "%.2f") m")
                 Text("Tipo Sanguíneo: \(patient.bloodType)")
@@ -86,7 +86,7 @@ struct PatientDetailView: View {
 
 #Preview {
     let exampleAddress = AddressClass(country: "Brasil", state: "Distrito Federal", city: "Gama", street: "olhos dagua", postalCode: "72432-122")
-    let examplePatient = PatientClass(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
+    let examplePatient = PatientClass(id: "3334093uufnucncienfn", name: "Victor Hugo Pacheco Araujo", phoneNumber: "11999999999", taxId: "12345678901234", birthDate: "2002/10/30", weight: 70, height: 180, bloodType: "O+", healthServiceNumber: "1393394", address: exampleAddress)
     NavigationStack {
         PatientDetailView(patient: examplePatient)
             .environment(PatientViewModel())

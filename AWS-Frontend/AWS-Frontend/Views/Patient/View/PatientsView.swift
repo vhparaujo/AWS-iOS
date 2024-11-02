@@ -22,12 +22,15 @@ struct PatientsView: View {
     
     var body: some View {
         VStack {
-            List(patients, id: \.self) { patient in
-                NavigationLink(destination: PatientDetailView(patient: patient)
-                    .environment(viewModel)
-                ) {
-                    Text(patient.name)
+            List {
+                ForEach(patients, id: \.self) { patient in
+                    NavigationLink(destination: PatientDetailView(patient: patient)
+                        .environment(viewModel)
+                    ) {
+                        Text(patient.name)
+                    }
                 }
+                .onDelete(perform: deletePatient)
             }
             .listStyle(.plain)
             
@@ -85,6 +88,7 @@ struct PatientsView: View {
                     name: patient.name,
                     phoneNumber: patient.phoneNumber,
                     taxId: patient.taxId,
+                    birthDate: patient.birthDate,
                     weight: patient.weight,
                     height: patient.height,
                     bloodType: patient.bloodType,
@@ -127,6 +131,26 @@ struct PatientsView: View {
         }
         print("Pacientes limpos.")
     }
+    
+    @MainActor
+    private func deletePatient(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let patientToDelete = patients[index]
+            context.delete(patientToDelete)
+            
+            // Sincroniza a exclusão com o servidor
+            Task {
+                do {
+                    if let id = patientToDelete.id {
+                        try await viewModel.deletePatients(id: id)
+                    }
+                } catch {
+                    print("Erro ao deletar paciente: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
 }
 
 #Preview {

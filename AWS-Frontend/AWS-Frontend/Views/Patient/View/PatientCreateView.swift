@@ -15,7 +15,7 @@ struct PatientCreateView: View {
     @State var name: String = ""
     @State var phoneNumber: String = ""
     @State var taxId: String = ""
-    //    @State var birthDate: String = ""
+    @State var birthDate: Date = Date()
     @State var weight: Double?
     @State var height: Double?
     @State var bloodType: String = ""
@@ -42,8 +42,8 @@ struct PatientCreateView: View {
                 TextField("CPF", text: $taxId)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.numberPad)
-                //                TextField("Birth Date", text: $birthDate)
-                //                    .textFieldStyle(.roundedBorder)
+                DatePicker("Data de Nascimento", selection: $birthDate, displayedComponents: .date)
+                    .datePickerStyle(.compact)
                 TextField("Peso (kg)", value: $weight, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
@@ -70,8 +70,11 @@ struct PatientCreateView: View {
                 Button {
                     Task {
                         do {
+                            
+                            let birthDateString = viewModel.formatDateForISO(birthDate: birthDate)
+                            
                             try await viewModel.createPatient(patient:
-                                                                Patient(id: nil, name: name, phoneNumber: phoneNumber, taxId: taxId, weight: weight ?? 0, height: height ?? 0, bloodType: bloodType, healthServiceNumber: healthServiceNumber, address:
+                                                                Patient(id: nil, name: name, phoneNumber: phoneNumber, taxId: taxId, birthDate: birthDateString, weight: weight ?? 0, height: height ?? 0, bloodType: bloodType, healthServiceNumber: healthServiceNumber, address:
                                                                             Address(country: country, state: state, city: city, street: street, postalCode: postalCode)
                                                                        )
                             )
@@ -94,7 +97,7 @@ struct PatientCreateView: View {
             }.padding()
         }
         .scrollDismissesKeyboard(.interactively)
-
+        
     }
 }
 

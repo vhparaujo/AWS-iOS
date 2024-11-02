@@ -21,7 +21,9 @@ class ServiceManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let jsonData = try JSONEncoder().encode(data)
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let jsonData = try encoder.encode(data)
             request.httpBody = jsonData
         } catch {
             print("Error Encoding: \(error.localizedDescription)")
@@ -76,7 +78,9 @@ class ServiceManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let jsonData = try JSONEncoder().encode(data)
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let jsonData = try encoder.encode(data)
             request.httpBody = jsonData
         } catch {
             print("Error encoding in update: \(error.localizedDescription)")
